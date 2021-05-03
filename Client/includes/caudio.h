@@ -1,4 +1,4 @@
-/*#ifndef CAUDIO_H
+#ifndef CAUDIO_H
 #define CAUDIO_H
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -27,8 +27,8 @@
 #include <miprawaudiomessage.h> // Needed for MIPRAWAUDIOMESSAGE_TYPE_S16LE etc
 #include <rtpsession.h>
 #include <rtpsessionparams.h>
-#include <rtpipv6address.h>
-#include <rtpudpv6transmitter.h>
+#include <rtpipv4address.h>
+#include <rtpudpv4transmitter.h>
 #include <rtperrors.h>
 #if !(defined(WIN32) || defined(_WIN32_WCE))
     #include <arpa/inet.h>
@@ -42,7 +42,7 @@
 
 #include "src/includes/abstractaudio.h"
 
-class CAudio : public AbstractAudio*
+class CAudio : public AbstractAudio
 {
 public:
     CAudio();
@@ -57,9 +57,9 @@ private:
     void checkError(bool returnValue, const MIPComponentChain &chain);
     void checkError(int status);
 
-    MIPComponentChain m_chain;
-    MIPRTPComponent m_rtp;
+    MIPAudioSession m_session;
+    /*MIPComponentChain m_chain;
+    MIPRTPComponent m_rtp;*/
 };
 
 #endif // CAUDIO_H
-*/

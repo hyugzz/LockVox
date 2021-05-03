@@ -14,7 +14,7 @@
 #include <iostream>
 #include <jrtplib3/rtpipv4address.h>
 #include <jrtplib3/rtpipv6address.h>
-#include <jrtplib3/rtpudpv6transmitter.h>
+#include <jrtplib3/rtpudpv4transmitter.h>
 #include <jrtplib3/rtpsessionparams.h>
 #include <jrtplib3/rtpsession.h>
 #include <jrtplib3/rtptransmitter.h>
@@ -24,6 +24,48 @@
 
 CAudio::CAudio()
 {
+    jrtplib::RTPSessionParams sessionparams;
+    sessionparams.SetOwnTimestampUnit(1.0/8000.0);
+    jrtplib::RTPUDPv4TransmissionParams transparams;
+   uint8_t localip[] = {127,0,0,1};
+    jrtplib::RTPIPv4Address ipaddr(localip, AUDIO_PORTBASE);
+
+    transparams.SetPortbase(AUDIO_PORTBASE);
+
+    m_session.push_back(new jrtplib::RTPSession());
+    int status = m_session[0]->Create(sessionparams, &transparams, jrtplib::RTPTransmitter::IPv4UDPProto);
+    if(status < 0)
+    {
+        std::cerr << jrtplib::RTPGetErrorString(status) << std::endl;
+        exit(-1);
+    }
+    m_session[0]->SetDefaultPayloadType(96);
+    m_session[0]->SetDefaultMark(false);
+    m_session[0]->SetDefaultTimestampIncrement(160);
+
+    uint8_t silencebuffer[160];
+    for (int i = 0 ; i < 160 ; i++)
+    silencebuffer[i] = 128;
+    jrtplib::RTPTime delay(0.020);
+    jrtplib::RTPTime starttime = jrtplib::RTPTime::CurrentTime();
+    bool done = false;
+    while (!done)
+    {
+    status = m_session[0]->SendPacket(silencebuffer,160);
+    if (status < 0)
+    {
+    std::cerr << jrtplib::RTPGetErrorString(status) << std::endl;
+    exit(-1);
+    }
+    //
+    // Inspect incoming data here
+    //
+    jrtplib::RTPTime::Wait(delay);
+    jrtplib::RTPTime t = jrtplib::RTPTime::CurrentTime();
+    t -= starttime;
+    if (t > jrtplib::RTPTime(60.0))
+    done = true;
+    }
 
 }
 
@@ -97,6 +139,29 @@ bool CAudio::AddSession(CChannel m_chan)
         std::cerr << "2 " << RTPGetErrorString(status);
         return false;
     }
+}
+
+CustomChain::CustomChain() : MIPComponentChain("NULL")
+{
+
+}
+
+int CustomChain::init(int id)
+{
+   jrtplib::RTPSession rtpSess;
+   jrtplib::RTPSessionParams rtpParams;
+   //Création des paramètres
+   rtpParams.SetUsePollThread(true);
+   rtpParams.SetMaximumPacketSize(1024);
+   rtpParams.SetAcceptOwnPackets(true);
+   rtpParams.SetReceiveMode(RTPTransmitter::ReceiveMode::AcceptAll);
+   rtpParams.SetResolveLocalHostname(false);
+   rtpParams.SetProbationType(RTPSources::ProbationType::ProbationDiscard);
+   rtpParams.SetSessionBandwidth(double(64000));
+   rtpParams.SetOwnTimestampUnit(1.0/8000.0);
+//   jrtplib::RTPTransmissionParams transParams(jrtplib::RTPTransmitter::IPv4UDPProto);
+   //sessPara
+   return 0;
 }
 
 

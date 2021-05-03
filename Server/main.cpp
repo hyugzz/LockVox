@@ -1,4 +1,4 @@
-
+#include "caudio.h"
 #include <QApplication>
 #include <QThread>
 #include <QString>
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-
+    CAudio audio;
     /*WSADATA Data;
     WSAStartup(MAKEWORD(2,2), &Data);
     CChannel tmpchan("", 0);

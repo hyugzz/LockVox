@@ -74,7 +74,7 @@
 
 // No support for AudioRecorder input component
 
-#define MIPCONFIG_SUPPORT_WINMM
+//No support for MIPCONFIG_SUPPORT_WINMM
 
 // No support for DirectShow video input codec
 

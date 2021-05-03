@@ -57,5 +57,12 @@ private:
     QList<jrtplib::RTPSession*> m_session;
 };
 
+class CustomChain : public MIPComponentChain
+{
+    CustomChain();
+    CustomChain(QString &id);
+    int init(int id);
+};
+
 
 #endif // CAUDIO_H
