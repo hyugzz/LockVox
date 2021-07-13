@@ -19,7 +19,7 @@ SOURCES += \
         Client/messagelist.cpp \
         Client/caudio.cpp \
         imageprovider.cpp \
-        src/abstractserver.cpp \
+        src/AbstractServer.cpp \
         src/cchannel.cpp \
         src/cclient.cpp  \
         src/cmessage.cpp \
@@ -81,7 +81,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 
 win32: LIBS += -L$$PWD/libs/libmariadb/win32/ -llibmariadb
-
+else: unix: LIBS += -L$$PWD/libs/libmariadb/unix/ -lmariadb
 INCLUDEPATH += $$PWD/libs/libmariadb/include \
     $$PWD/libs/libmariadb/win32
 DEPENDPATH += $$PWD/libs/libmariadb/win32

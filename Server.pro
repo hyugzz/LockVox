@@ -55,7 +55,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 win32: LIBS += -L$$PWD/libs/libmariadb/win32/ -llibmariadb
-
+else: unix: LIBS += -L$$PWD/libs/libmariadb/unix -lmariadb
 INCLUDEPATH += $$PWD/libs/libmariadb/include \
     $$PWD/libs/libmariadb/win32
 DEPENDPATH += $$PWD/libs/libmariadb/win32

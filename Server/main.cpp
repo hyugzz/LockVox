@@ -5,9 +5,10 @@
 
 #include "Server/config.h"
 #include "Server/includes/cserver.h"
-#include "winsock.h"
-#pragma comment(lib,"ws2_32.lib")
-
+#ifdef WIN_32
+    #include "winsock.h"
+    #pragma comment(lib,"ws2_32.lib")
+#endif
 
 int main(int argc, char *argv[])
 {
