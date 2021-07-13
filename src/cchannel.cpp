@@ -284,3 +284,19 @@ void CChannel::delUser(QUuid idUser)
    m_nbClients = m_clients.size();
 }
 
+QList<crole*> CChannel::GetChannelRights()
+{
+    return m_roles;
+}
+
+bool CChannel::IsUserAllowed(CClient *p_client, int p_right)
+{
+    for(auto r : p_client->GetRoles())
+    {
+        for(auto c : m_roles)
+            if(r->GetId()==c->GetId())  //If user and channel have the role
+                if(c->IsAllowed(p_right))   //And the requested right is allowed
+                    return true;
+    }
+    return false;
+}

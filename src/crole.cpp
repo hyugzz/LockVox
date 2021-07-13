@@ -65,7 +65,7 @@ void crole::DelChild(int p_id)
 }
 
 /*********************************************************************
-****************************GETTER+SETTER******************************
+****************************GETTER+SETTER*****************************
 **********************************************************************/
 
 void crole::SetWrite(bool v)
@@ -98,7 +98,27 @@ void crole::SetMute(bool v)
     m_mute = v;
 }
 
+void crole::SetId(int p_id)
+{
+    m_id = p_id;
+}
+
+void crole::SetName(QString p_name)
+{
+    m_name = p_name;
+}
+
 /******************************************/
+
+int crole::GetId()
+{
+    return m_id;
+}
+
+QString crole::GetName()
+{
+    return m_name;
+}
 
 bool crole::GetWrite()
 {
@@ -128,4 +148,23 @@ bool crole::GetSee()
 bool crole::GetMute()
 {
     return m_mute;
+}
+
+bool crole::IsAllowed(int right)
+{
+    switch (right) {
+    case Write:
+        return GetWrite();
+    case Speak:
+        return GetSpeak();
+    case Kick:
+        return GetKick();
+    case Delete:
+        return GetDelete();
+    case See:
+        return GetSee();
+    case Mute:
+        return GetMute();
+    }
+
 }

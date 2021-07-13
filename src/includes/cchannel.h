@@ -19,6 +19,8 @@
 //Includes
 #include "cclient.h"
 #include "Client/includes/messagelist.h"
+#include "crole.h"
+
 
 //Class
 class CMessage;
@@ -60,6 +62,7 @@ class CChannel
         int get_maxUsers();
         int get_nbClients();
         MessageList *getMessagesLists() const;
+        QList<crole*> GetChannelRights();
 
         //Setters
         void set_clients(QList<CClient*> clients);
@@ -78,6 +81,8 @@ class CChannel
         void addUser(CClient * c);
         void delUser(QUuid idUser);
 
+        //Right related
+        bool IsUserAllowed(CClient* p_client, int p_right);
     signals:
 
 
@@ -92,6 +97,7 @@ class CChannel
         int m_id;                              //!< m_id is the ID of the channel
         QList<CClient*> m_clients;             //!< m_clients is the list of clients in the channel
         MessageList * m_messagesLists;         //!< m_messagesLists is the list of messages associate to the channel
+        QList<crole*> m_roles;
 };
 
 #endif // CCHANNEL_H

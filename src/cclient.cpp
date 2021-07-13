@@ -341,11 +341,56 @@ void CClient::deserialize(QJsonObject json_obj){
     this->set_description(json_obj["description"].toString());
 }
 
+/********* Role related *********/
+/**
+ * @brief CClient::GetRoles
+ * @return This function returns the roles the client has
+ */
+QList<crole*> CClient::GetRoles()
+{
+    return m_roles;
+}
 
+/**
+ * @brief CClient::AddRoles
+ * @param p_role Role to add
+ * @return 0 if add succeed, 1 if the user already had the role
+ */
+int CClient::AddRoles(crole *p_role)
+{
+    for(auto r : GetRoles())
+        if(r->GetId()==p_role->GetId())
+            return 1;
+    m_roles.append(p_role);
+    return 0;
+}
 
+/**
+ * @brief CClient::FlushRoles This function clears all users's roles
+ * @return Returns 0 if succeed
+ */
+int CClient::FlushRoles()
+{
+    crole* tmp = m_roles[0];
+    m_roles.clear();
+    m_roles.append(tmp);
+    return 0;
+}
 
-
-
-
-
-
+/**
+ * @brief CClient::DeleteRole This function deletes the role from the user
+ * @param p_role Role to delete
+ * @return 0 if succeed, 1 if the client didn't have the role
+ */
+int CClient::DeleteRole(crole *p_role)
+{
+    for(int i = 0; i<m_roles.size(); i++)
+    {
+        if(m_roles[i]->GetId()==p_role->GetId())
+        {
+            m_roles.removeAt(i);
+            return 0;
+        }
+    }
+    return 1;
+}

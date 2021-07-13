@@ -23,6 +23,7 @@
 
 //Includes
 #include "cchannel.h"
+#include "crole.h"
 
 
 
@@ -78,6 +79,12 @@ class CClient
         QJsonObject serializeToObj();
         void deserialize(QJsonObject json_obj);
 
+        //Role related
+        QList<crole*> GetRoles();
+        int AddRoles(crole* p_role);
+        int FlushRoles();
+        int DeleteRole(crole* p_role);
+
     signals:
 
 
@@ -99,6 +106,7 @@ class CClient
         bool m_isAuthenticate;              //!< m_isAuthenticate represent if the user has pass the authentification
 
         QImage profilePic;                  //!< profilePic is the profile picture of the user
+        QList<crole*> m_roles;              //!< m_roles is the list of roles that the user owns on the server
 
 };
 

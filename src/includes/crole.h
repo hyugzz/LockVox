@@ -27,6 +27,11 @@ public:
     void SetSee(bool v);
     void SetMute(bool v);
 
+    void SetId(int p_id);
+    void SetName(QString p_name);
+
+    int GetId();
+    QString GetName();
     bool GetWrite();
     bool GetSpeak();
     bool GetKick();
@@ -34,7 +39,17 @@ public:
     bool GetSee();
     bool GetMute();
 
+    //Util functions
+    bool IsAllowed(int right);
 
+    enum{
+        Write,
+        Speak,
+        Kick,
+        Delete,
+        See,
+        Mute
+    };
 private:
     int m_id;                   //ID du role
     QString m_name;             //Nom du role
@@ -48,7 +63,6 @@ private:
     bool m_see;
     bool m_mute;
 
-    void SetId();
 };
 
 #endif // CROLE_H
